@@ -24,6 +24,25 @@ if ( ! function_exists( 'twentytwentyfive_post_format_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'twentytwentyfive_post_format_setup' );
 
+// Registers navigation menu locations.
+if ( ! function_exists( 'twentytwentyfive_register_menus' ) ) :
+	/**
+	 * Registers custom navigation menus.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_register_menus() {
+		register_nav_menus(
+			array(
+				'sticky-mobile' => __( 'Sticky Mobile Navigation', 'twentytwentyfive' ),
+			)
+		);
+	}
+endif;
+add_action( 'after_setup_theme', 'twentytwentyfive_register_menus' );
+
 // Enqueues editor-style.css in the editors.
 if ( ! function_exists( 'twentytwentyfive_editor_style' ) ) :
 	/**
@@ -66,6 +85,94 @@ if ( ! function_exists( 'twentytwentyfive_enqueue_styles' ) ) :
 	}
 endif;
 add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_styles' );
+
+// Enqueues sticky mobile navigation assets on the front page.
+if ( ! function_exists( 'twentytwentyfive_enqueue_sticky_mobile_nav' ) ) :
+	/**
+	 * Enqueues the sticky mobile circle navigation stylesheet.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_enqueue_sticky_mobile_nav() {
+		if ( ! is_front_page() ) {
+			return;
+		}
+
+		wp_enqueue_style(
+			'twentytwentyfive-sticky-mobile-nav',
+			get_parent_theme_file_uri( 'assets/css/sticky-mobile-nav.css' ),
+			array( 'twentytwentyfive-style' ),
+			wp_get_theme()->get( 'Version' )
+		);
+	}
+endif;
+add_action( 'wp_enqueue_scripts', 'twentytwentyfive_enqueue_sticky_mobile_nav' );
+
+// Fallback menu: lists published pages when no menu is assigned.
+if ( ! function_exists( 'twentytwentyfive_sticky_mobile_nav_fallback' ) ) :
+	/**
+	 * Outputs a page list when the sticky mobile menu location is empty.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_sticky_mobile_nav_fallback() {
+		$pages = get_pages(
+			array(
+				'sort_column' => 'menu_order,post_title',
+				'post_status' => 'publish',
+			)
+		);
+
+		if ( empty( $pages ) ) {
+			return;
+		}
+
+		echo '<ul class="circle-nav-container">';
+
+		foreach ( $pages as $page ) {
+			$is_current = is_page( $page->ID ) ? ' current_page_item' : '';
+			printf(
+				'<li class="circle-nav-item%s"><a href="%s" aria-label="%s"><span class="circle-nav-label">%s</span></a></li>',
+				esc_attr( $is_current ),
+				esc_url( get_permalink( $page ) ),
+				esc_attr( $page->post_title ),
+				esc_html( $page->post_title )
+			);
+		}
+
+		echo '</ul>';
+	}
+endif;
+
+// Renders the sticky mobile navigation on the front page.
+if ( ! function_exists( 'twentytwentyfive_render_sticky_mobile_nav' ) ) :
+	/**
+	 * Loads the sticky mobile navigation template part once per request.
+	 *
+	 * @since Twenty Twenty-Five 1.0
+	 *
+	 * @return void
+	 */
+	function twentytwentyfive_render_sticky_mobile_nav() {
+		if ( ! is_front_page() ) {
+			return;
+		}
+
+		static $rendered = false;
+
+		if ( $rendered ) {
+			return;
+		}
+
+		$rendered = true;
+		get_template_part( 'parts/navigation/sticky-mobile-nav' );
+	}
+endif;
+add_action( 'wp_body_open', 'twentytwentyfive_render_sticky_mobile_nav', 5 );
 
 // Registers custom block styles.
 if ( ! function_exists( 'twentytwentyfive_block_styles' ) ) :
