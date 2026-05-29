@@ -53,9 +53,20 @@ if ( is_singular() ) {
 <div id="page">
 
 <div id="header" role="banner">
-	<div id="headerimg">
-		<h1><a href="<?php echo home_url(); ?>/"><?php bloginfo( 'name' ); ?></a></h1>
-		<div class="description"><?php bloginfo( 'description' ); ?></div>
-	</div>
+    <div id="headerimg">
+        <h1><a href="<?php echo home_url(); ?>/"><?php bloginfo( 'name' ); ?></a></h1>
+        <div class="description"><?php bloginfo( 'description' ); ?></div>
+        
+        <nav id="menu-paginas">
+            <ul>
+                <?php 
+                wp_list_pages( array(
+                    'title_li' => '', // Elimina el título por defecto "Páginas" que añade WordPress
+                    'sort_column' => 'menu_order, post_title' // Ordena por el orden que asignes o por título alfabético
+                ) ); 
+                ?>
+            </ul>
+        </nav>
+        </div>
 </div>
 <hr />
