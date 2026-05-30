@@ -1,0 +1,84 @@
+/* ==========================================================================
+   Mobile Sticky Circle Navigation
+   ========================================================================== */
+
+/* Mobile Only Viewport */
+@media (max-width: 767px) {
+    .mobile-sticky-circle-nav {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+        width: 100%;
+        background-color: #ffffff; /* Gives solid background so hero text doesn't bleed through */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Optional subtle shadow */
+        padding: 12px 0;
+    }
+
+    /* Force horizontal scroll for the menu list (ul) */
+    .mobile-sticky-circle-nav .circle-nav-container {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        margin: 0 !important;
+        padding: 0 15px !important;
+        list-style: none !important;
+        gap: 15px;
+        
+        /* Smooth touch scrolling physics for iOS/Android */
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Hide ugly mobile scrollbars while maintaining the swipe functionality */
+    .mobile-sticky-circle-nav .circle-nav-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Target the list items (li) */
+    .mobile-sticky-circle-nav .circle-nav-container li {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+    }
+
+    /* Transform the links into perfect circles */
+    .mobile-sticky-circle-nav .circle-nav-container li a {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        
+        /* Perfect circle constraints */
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        aspect-ratio: 1 / 1;
+        
+        /* Styling & Typography */
+        background-color: #f5f5f7; /* Soft light gray background */
+        color: #1d1d1f; /* Clean dark text */
+        text-align: center;
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.2;
+        text-decoration: none;
+        padding: 8px;
+        box-sizing: border-box;
+        overflow: hidden;
+        
+        /* Text wrapping engine inside the circle */
+        word-break: break-word;
+        hyphens: auto;
+    }
+    
+    /* Optional active/hover state */
+    .mobile-sticky-circle-nav .circle-nav-container li a:active {
+        background-color: #e8e8ed;
+    }
+}
+
+/* Hide entirely on Desktop/Tablet viewports */
+@media (min-width: 768px) {
+    .mobile-sticky-circle-nav {
+        display: none !important;
+    }
+}

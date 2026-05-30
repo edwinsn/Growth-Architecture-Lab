@@ -1,0 +1,106 @@
+/**
+ * Sticky mobile circle navigation — home page only (see functions.php).
+ */
+
+.mobile-sticky-circle-nav {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	width: 100%;
+	background-color: var(--wp--preset--color--base, #ffffff);
+	border-bottom: 1px solid var(--wp--preset--color--accent-6, rgba(0, 0, 0, 0.12));
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+	display: none;
+}
+
+.mobile-sticky-circle-nav__scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+	padding: 0.75rem 1rem;
+}
+
+.mobile-sticky-circle-nav__scroll::-webkit-scrollbar {
+	display: none;
+}
+
+.circle-nav-container {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: 0.75rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	width: max-content;
+	min-width: 100%;
+}
+
+.circle-nav-container > li {
+	flex: 0 0 auto;
+	margin: 0;
+	padding: 0;
+}
+
+.circle-nav-container a {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%;
+	background-color: var(--wp--preset--color--accent-5, #fbfaf3);
+	color: var(--wp--preset--color--contrast, #111111);
+	border: 2px solid var(--wp--preset--color--accent-6, rgba(0, 0, 0, 0.12));
+	font-size: 0.625rem;
+	font-weight: 600;
+	line-height: 1.1;
+	text-align: center;
+	text-decoration: none;
+	padding: 0.25rem;
+	overflow: hidden;
+	transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.circle-nav-container a:hover,
+.circle-nav-container a:focus-visible {
+	background-color: var(--wp--preset--color--accent-1, #ffee58);
+	border-color: var(--wp--preset--color--contrast, #111111);
+	text-decoration: none;
+	outline: none;
+}
+
+.circle-nav-container a:focus-visible {
+	box-shadow: 0 0 0 2px var(--wp--preset--color--base, #ffffff),
+		0 0 0 4px var(--wp--preset--color--contrast, #111111);
+}
+
+.circle-nav-container .current-menu-item > a,
+.circle-nav-container .current_page_item > a {
+	background-color: var(--wp--preset--color--contrast, #111111);
+	color: var(--wp--preset--color--base, #ffffff);
+	border-color: var(--wp--preset--color--contrast, #111111);
+}
+
+.circle-nav-label {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+	word-break: break-word;
+	hyphens: auto;
+}
+
+@media (max-width: 781px) {
+	.mobile-sticky-circle-nav {
+		display: block;
+	}
+}
+
+@media (min-width: 782px) {
+	.mobile-sticky-circle-nav {
+		display: none !important;
+	}
+}

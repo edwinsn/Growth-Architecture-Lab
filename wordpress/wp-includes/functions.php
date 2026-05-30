@@ -9278,3 +9278,16 @@ function wp_verify_fast_hash(
 
 	return hash_equals( $hash, wp_fast_hash( $message ) );
 }
+
+// Put this in functions.php
+function gal_enqueue_mobile_nav_styles() {
+    if ( is_front_page() ) {
+        wp_enqueue_style( 
+            'mobile-circle-nav-css', 
+            get_template_directory_uri() . '/css/mobile-nav.css', 
+            array(), 
+            '1.0.0' 
+        );
+    }
+}
+add_action( 'wp_enqueue_scripts', 'gal_enqueue_mobile_nav_styles' );
